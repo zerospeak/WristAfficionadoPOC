@@ -1,0 +1,1566 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Luxury Watch Price Optimization System - Technical Implementation Document</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                max-width: 1000px;
+                margin: 0 auto;
+                padding: 20px;
+                color: #333;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                color: #2c3e50;
+                margin-top: 24px;
+                margin-bottom: 16px;
+            }
+            h1 {
+                font-size: 2.5em;
+                border-bottom: 1px solid #eaecef;
+                padding-bottom: 0.3em;
+            }
+            h2 {
+                font-size: 2em;
+                border-bottom: 1px solid #eaecef;
+                padding-bottom: 0.3em;
+            }
+            code, pre {
+                font-family: Consolas, Monaco, 'Andale Mono', monospace;
+                background-color: #f6f8fa;
+                border-radius: 3px;
+            }
+            pre {
+                padding: 16px;
+                overflow: auto;
+                line-height: 1.45;
+            }
+            code {
+                padding: 0.2em 0.4em;
+            }
+            pre code {
+                padding: 0;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 16px;
+            }
+            table, th, td {
+                border: 1px solid #dfe2e5;
+            }
+            th, td {
+                padding: 8px 16px;
+                text-align: left;
+            }
+            th {
+                background-color: #f6f8fa;
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+            blockquote {
+                padding: 0 1em;
+                color: #6a737d;
+                border-left: 0.25em solid #dfe2e5;
+                margin: 0 0 16px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Luxury Watch Price Optimization System - Technical Implementation Document</h1>
+<h2>Table of Contents</h2>
+<ol>
+<li>Introduction</li>
+<li>Purpose</li>
+<li>System Overview</li>
+<li>
+<p>Document Scope</p>
+</li>
+<li>
+<p>System Architecture</p>
+</li>
+<li>High-Level Architecture</li>
+<li>Component Diagram</li>
+<li>
+<p>Data Flow</p>
+</li>
+<li>
+<p>Database Schema Design</p>
+</li>
+<li>Entity Relationship Diagram</li>
+<li>Table Definitions</li>
+<li>
+<p>Data Dictionary</p>
+</li>
+<li>
+<p>Component Implementation</p>
+</li>
+<li>Web Scraping Module</li>
+<li>Pricing Engine</li>
+<li>API Services</li>
+<li>Visualization Components</li>
+<li>
+<p>Alert System</p>
+</li>
+<li>
+<p>Technical Considerations</p>
+</li>
+<li>Scalability</li>
+<li>Reliability</li>
+<li>
+<p>Compliance</p>
+</li>
+<li>
+<p>Implementation Roadmap</p>
+</li>
+<li>Phase 1 (Weeks 1-4)</li>
+<li>Phase 2 (Weeks 5-8)</li>
+<li>
+<p>Phase 3 (Weeks 9-12)</p>
+</li>
+<li>
+<p>Step-by-Step Implementation Guide</p>
+</li>
+<li>Environment Setup</li>
+<li>Database Setup</li>
+<li>Component Installation</li>
+<li>Configuration</li>
+<li>
+<p>Testing</p>
+</li>
+<li>
+<p>Appendices</p>
+</li>
+<li>Code Samples</li>
+<li>Reference Materials</li>
+</ol>
+<h2>1. Introduction</h2>
+<h3>Purpose</h3>
+<p>This document provides a comprehensive technical implementation guide for the Luxury Watch Price Optimization System. It is designed for technical personnel who may not be familiar with the technology but need to implement the system step by step. The document outlines the system architecture, components, database schema, and provides detailed implementation instructions.</p>
+<h3>System Overview</h3>
+<p>The Luxury Watch Price Optimization System is a sophisticated platform designed to automate the collection, analysis, and optimization of luxury watch pricing across various marketplaces. The system employs a microservices architecture with clear separation of concerns, ensuring scalability and maintainability. It uses web scraping to gather market data, applies pricing rules through a dedicated pricing engine, and provides visualization tools for monitoring and analysis.</p>
+<h3>Document Scope</h3>
+<p>This implementation guide covers:
+- Complete system architecture and design principles
+- Database schema implementation with PostgreSQL
+- Component-level implementation details
+- Technical considerations for deployment
+- A phased implementation roadmap
+- Step-by-step setup and configuration instructions</p>
+<p>The document is intended to guide technical teams through the entire implementation process, from initial setup to full deployment of all system components.</p>
+<h2>High-Level Architecture</h2>
+<p>The Luxury Watch Price Optimization System employs a microservices architecture with clear separation of concerns, ensuring scalability and maintainability. The system is organized into five functional layers:</p>
+<ol>
+<li><strong>Data Collection Layer</strong> (Yellow components)</li>
+<li>Web scraping services</li>
+<li>API integration services</li>
+<li>
+<p>Data ingestion pipelines</p>
+</li>
+<li>
+<p><strong>Data Storage Layer</strong> (Green components)</p>
+</li>
+<li>PostgreSQL database</li>
+<li>
+<p>Redis cache for performance optimization</p>
+</li>
+<li>
+<p><strong>Processing Layer</strong> (Blue components)</p>
+</li>
+<li>ML model for price prediction</li>
+<li>Rule-based pricing engine</li>
+<li>
+<p>Blockchain verification services</p>
+</li>
+<li>
+<p><strong>API Layer</strong> (Yellow components)</p>
+</li>
+<li>RESTful API services</li>
+<li>
+<p>Alert services</p>
+</li>
+<li>
+<p><strong>Visualization Layer</strong> (Purple components)</p>
+</li>
+<li>Dashboard UI</li>
+<li>Interactive reports</li>
+</ol>
+<h2>Component Diagram</h2>
+<p>The system architecture consists of the following key components:</p>
+<ul>
+<li><strong>Web Scraping Service</strong>: Collects pricing data from various marketplaces</li>
+<li><strong>Price API</strong>: Provides access to current and historical pricing data</li>
+<li><strong>User-Agent API</strong>: Manages rotation of user agents for web scraping</li>
+<li><strong>Redis Cache</strong>: Stores frequently accessed data for performance</li>
+<li><strong>PostgreSQL Database</strong>: Primary data storage for all system entities</li>
+<li><strong>ML Model</strong>: Processes pricing data to predict optimal pricing</li>
+<li><strong>Pricing Engine</strong>: Applies business rules to determine final pricing</li>
+<li><strong>Blockchain Service</strong>: Verifies and records price history for audit purposes</li>
+<li><strong>Alert System</strong>: Monitors price changes and triggers notifications</li>
+<li><strong>Visualization Dashboard</strong>: Provides interactive UI for data analysis</li>
+</ul>
+<h2>Data Flow</h2>
+<p>Key interactions flow from top to bottom, with data flowing through the layers while maintaining loose coupling between components:</p>
+<ol>
+<li>Web scraping services collect data from marketplaces</li>
+<li>Data is stored in PostgreSQL database</li>
+<li>Pricing engine processes data using business rules</li>
+<li>ML model analyzes pricing trends</li>
+<li>API services expose data to visualization layer</li>
+<li>Alert system monitors for significant changes</li>
+<li>Dashboard visualizes data for end-users</li>
+</ol>
+<h2>Entity Relationship Diagram</h2>
+<p>The PostgreSQL database requires careful schema design to support the system's functionality. The database schema consists of the following key entities and their relationships:</p>
+<h3>WATCHES Table</h3>
+<ul>
+<li><strong>id</strong> (string, PK): Unique identifier</li>
+<li><strong>name</strong> (string): Watch model name</li>
+<li><strong>marketplace_type</strong> (string): Source marketplace</li>
+<li><strong>brand</strong> (string): Watch brand</li>
+<li><strong>description</strong> (string): Product description</li>
+<li><strong>created_at</strong> (datetime): Record creation timestamp</li>
+<li><strong>updated_at</strong> (datetime): Record update timestamp</li>
+<li><strong>last_scraped</strong> (datetime): Last data collection timestamp</li>
+</ul>
+<h3>PRICES Table</h3>
+<ul>
+<li><strong>id</strong> (serial, PK): Unique identifier</li>
+<li><strong>watch_model_number</strong> (string, FK): Reference to watch</li>
+<li><strong>price</strong> (decimal): Current price</li>
+<li><strong>competitor_id</strong> (string): Competitor identifier</li>
+<li><strong>scraped_at</strong> (datetime): Price collection timestamp</li>
+<li><strong>active</strong> (boolean): Whether price is current</li>
+</ul>
+<h3>REVIEWS Table</h3>
+<ul>
+<li><strong>id</strong> (serial, PK): Unique identifier</li>
+<li><strong>watch_model_number</strong> (string, FK): Reference to watch</li>
+<li><strong>content</strong> (text): Review content</li>
+<li><strong>rating</strong> (integer): Numerical rating</li>
+<li><strong>posted_at</strong> (datetime): Review posting timestamp</li>
+</ul>
+<h3>PRICE_HISTORY Table</h3>
+<ul>
+<li><strong>id</strong> (serial, PK): Unique identifier</li>
+<li><strong>watch_model_number</strong> (string, FK): Reference to watch</li>
+<li><strong>price</strong> (decimal): Historical price</li>
+<li><strong>recorded_at</strong> (datetime): Timestamp</li>
+<li><strong>blockchain_hash</strong> (string): Verification hash</li>
+</ul>
+<h3>ALERTS Table</h3>
+<ul>
+<li><strong>id</strong> (serial, PK): Unique identifier</li>
+<li><strong>watch_model_number</strong> (string, FK): Reference to watch</li>
+<li><strong>alert_type</strong> (string): Type of alert</li>
+<li><strong>alert_data</strong> (json): Alert details</li>
+<li><strong>triggered_at</strong> (datetime): Alert timestamp</li>
+<li><strong>resolved</strong> (boolean): Resolution status</li>
+</ul>
+<h2>Relationships</h2>
+<ul>
+<li>One WATCH can have many PRICES (one-to-many)</li>
+<li>One WATCH can have many REVIEWS (one-to-many)</li>
+<li>PRICES records history in PRICE_HISTORY (one-to-many)</li>
+<li>PRICES triggers ALERTS (one-to-many)</li>
+</ul>
+<h2>Data Dictionary</h2>
+<h3>WATCHES Table</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>string</td>
+<td>Primary key, unique identifier for each watch</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Full model name of the watch</td>
+</tr>
+<tr>
+<td>marketplace_type</td>
+<td>string</td>
+<td>Source marketplace (e.g., "official", "gray_market")</td>
+</tr>
+<tr>
+<td>brand</td>
+<td>string</td>
+<td>Brand name of the watch manufacturer</td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>Full product description</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>datetime</td>
+<td>When the record was first created</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>datetime</td>
+<td>When the record was last updated</td>
+</tr>
+<tr>
+<td>last_scraped</td>
+<td>datetime</td>
+<td>When data was last collected for this watch</td>
+</tr>
+</tbody>
+</table>
+<h3>PRICES Table</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>serial</td>
+<td>Primary key, auto-incrementing identifier</td>
+</tr>
+<tr>
+<td>watch_model_number</td>
+<td>string</td>
+<td>Foreign key to WATCHES table</td>
+</tr>
+<tr>
+<td>price</td>
+<td>decimal</td>
+<td>Current price of the watch</td>
+</tr>
+<tr>
+<td>competitor_id</td>
+<td>string</td>
+<td>Identifier of the competitor offering this price</td>
+</tr>
+<tr>
+<td>scraped_at</td>
+<td>datetime</td>
+<td>When this price was collected</td>
+</tr>
+<tr>
+<td>active</td>
+<td>boolean</td>
+<td>Whether this price is currently active</td>
+</tr>
+</tbody>
+</table>
+<h3>REVIEWS Table</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>serial</td>
+<td>Primary key, auto-incrementing identifier</td>
+</tr>
+<tr>
+<td>watch_model_number</td>
+<td>string</td>
+<td>Foreign key to WATCHES table</td>
+</tr>
+<tr>
+<td>content</td>
+<td>text</td>
+<td>Full text content of the review</td>
+</tr>
+<tr>
+<td>rating</td>
+<td>integer</td>
+<td>Numerical rating (typically 1-5)</td>
+</tr>
+<tr>
+<td>posted_at</td>
+<td>datetime</td>
+<td>When the review was posted</td>
+</tr>
+</tbody>
+</table>
+<h3>PRICE_HISTORY Table</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>serial</td>
+<td>Primary key, auto-incrementing identifier</td>
+</tr>
+<tr>
+<td>watch_model_number</td>
+<td>string</td>
+<td>Foreign key to WATCHES table</td>
+</tr>
+<tr>
+<td>price</td>
+<td>decimal</td>
+<td>Historical price point</td>
+</tr>
+<tr>
+<td>recorded_at</td>
+<td>datetime</td>
+<td>When this price was recorded</td>
+</tr>
+<tr>
+<td>blockchain_hash</td>
+<td>string</td>
+<td>Hash for blockchain verification</td>
+</tr>
+</tbody>
+</table>
+<h3>ALERTS Table</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>serial</td>
+<td>Primary key, auto-incrementing identifier</td>
+</tr>
+<tr>
+<td>watch_model_number</td>
+<td>string</td>
+<td>Foreign key to WATCHES table</td>
+</tr>
+<tr>
+<td>alert_type</td>
+<td>string</td>
+<td>Type of alert (e.g., "price_drop", "competitor_change")</td>
+</tr>
+<tr>
+<td>alert_data</td>
+<td>json</td>
+<td>Detailed information about the alert</td>
+</tr>
+<tr>
+<td>triggered_at</td>
+<td>datetime</td>
+<td>When the alert was triggered</td>
+</tr>
+<tr>
+<td>resolved</td>
+<td>boolean</td>
+<td>Whether the alert has been resolved</td>
+</tr>
+</tbody>
+</table>
+<h2>Web Scraping Module</h2>
+<p>The web scraping module is responsible for collecting pricing data from various marketplaces. It implements the following features:</p>
+<pre><code class="language-python">def __init__(self):
+    self.proxy_manager = ProxyManager()
+    self.user_agent_rotator = UserAgentRotator()
+
+async def scrape_marketplace(self, marketplace_url):
+    proxy = await self.proxy_manager.get_proxy()
+    headers = self.user_agent_rotator.get_random_user_agent()
+    async with aiohttp.ClientSession() as session:
+        async with session.get(marketplace_url,
+                              proxy=proxy,
+                              headers=headers) as response:
+            return await response.text()
+</code></pre>
+<p>Key implementation considerations:
+- Uses proxy rotation to avoid IP blocking
+- Implements user-agent rotation for request anonymization
+- Uses asynchronous HTTP requests for improved performance
+- Respects robots.txt files for ethical scraping
+- Implements rate limiting to avoid overloading target sites</p>
+<h2>Pricing Engine</h2>
+<p>The pricing engine applies business rules to determine optimal pricing based on competitor data and internal strategies:</p>
+<pre><code class="language-python">class PricingEngine:
+    def __init__(self):
+        self.rules = {
+            'rolex_daytona': {
+                'competitor_a_discount': 50,
+                'competitor_b_match_percent': 0.05,
+                'aging_discount_days': 30,
+                'aging_discount_percent': 0.02
+            }
+        }
+
+    def calculate_optimal_price(self, watch_data):
+        base_price = self.get_base_price(watch_data)
+        competitor_prices = self.get_competitor_prices(watch_data.model_number)
+
+        optimal_price = base_price
+
+        # Apply pricing rules
+        for rule in self.rules[watch_data.category]:
+            optimal_price = self.apply_rule(optimal_price, rule, competitor_prices)
+
+        return optimal_price
+</code></pre>
+<p>Key implementation considerations:
+- Rule-based pricing strategy with configurable parameters
+- Category-specific pricing rules
+- Competitor price monitoring and matching capabilities
+- Time-based discounting for aging inventory
+- Extensible framework for adding new pricing strategies</p>
+<h2>API Services</h2>
+<p>The system exposes several RESTful API endpoints:</p>
+<ol>
+<li><strong>Watch API</strong></li>
+<li><code>GET /api/watches</code> - List all watches</li>
+<li><code>GET /api/watches/{id}</code> - Get watch details</li>
+<li><code>POST /api/watches</code> - Add new watch</li>
+<li>
+<p><code>PUT /api/watches/{id}</code> - Update watch details</p>
+</li>
+<li>
+<p><strong>Price API</strong></p>
+</li>
+<li><code>GET /api/prices</code> - List all current prices</li>
+<li><code>GET /api/prices/history/{watch_id}</code> - Get price history</li>
+<li>
+<p><code>POST /api/prices</code> - Add new price point</p>
+</li>
+<li>
+<p><strong>Alert API</strong></p>
+</li>
+<li><code>GET /api/alerts</code> - List all alerts</li>
+<li><code>GET /api/alerts/{id}</code> - Get alert details</li>
+<li><code>PUT /api/alerts/{id}/resolve</code> - Mark alert as resolved</li>
+</ol>
+<p>Implementation using FastAPI:</p>
+<pre><code class="language-python">from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI()
+
+@app.get(&quot;/api/watches&quot;)
+async def get_watches():
+    # Implementation details
+    return {&quot;watches&quot;: watches_list}
+
+@app.get(&quot;/api/watches/{watch_id}&quot;)
+async def get_watch(watch_id: str):
+    # Implementation details
+    if watch not found:
+        raise HTTPException(status_code=404, detail=&quot;Watch not found&quot;)
+    return watch
+</code></pre>
+<h2>Visualization Components</h2>
+<p>The visualization layer includes:</p>
+<ol>
+<li><strong>Market Dashboard</strong></li>
+<li>Real-time price monitoring</li>
+<li>Competitor analysis charts</li>
+<li>
+<p>Historical price trends</p>
+</li>
+<li>
+<p><strong>Alerts Dashboard</strong></p>
+</li>
+<li>Active alerts display</li>
+<li>Alert history and resolution tracking</li>
+<li>Alert configuration interface</li>
+</ol>
+<p>Implementation using Plotly Dash:</p>
+<pre><code class="language-python">import dash
+import dash_core_components as dcc
+import dash_html_components as html
+import plotly.express as px
+
+app = dash.Dash(__name__)
+
+app.layout = html.Div([
+    html.H1(&quot;Luxury Watch Price Dashboard&quot;),
+    dcc.Graph(
+        id='price-history-graph',
+        figure=px.line(df, x=&quot;date&quot;, y=&quot;price&quot;, color=&quot;watch_model&quot;)
+    )
+])
+</code></pre>
+<h2>Alert System</h2>
+<p>The alert system monitors price changes and triggers notifications:</p>
+<pre><code class="language-python">class AlertSystem:
+    def __init__(self, db_connection, notification_service):
+        self.db = db_connection
+        self.notification_service = notification_service
+
+    def check_price_alerts(self):
+        # Get latest prices
+        latest_prices = self.db.query(&quot;SELECT * FROM prices WHERE active = TRUE&quot;)
+
+        for price in latest_prices:
+            # Get previous price
+            previous_price = self.db.query(
+                &quot;SELECT price FROM price_history WHERE watch_model_number = %s ORDER BY recorded_at DESC LIMIT 1&quot;,
+                (price.watch_model_number,)
+            )
+
+            # Check for significant price change
+            if previous_price and abs(price.price - previous_price.price) / previous_price.price &gt; 0.1:
+                # Create alert
+                alert_data = {
+                    &quot;previous_price&quot;: previous_price.price,
+                    &quot;current_price&quot;: price.price,
+                    &quot;percent_change&quot;: (price.price - previous_price.price) / previous_price.price * 100
+                }
+
+                self.db.execute(
+                    &quot;INSERT INTO alerts (watch_model_number, alert_type, alert_data, triggered_at, resolved) VALUES (%s, %s, %s, %s, %s)&quot;,
+                    (price.watch_model_number, &quot;price_change&quot;, json.dumps(alert_data), datetime.now(), False)
+                )
+
+                # Send notification
+                self.notification_service.send_alert(
+                    &quot;Price change alert&quot;,
+                    f&quot;Price for {price.watch_model_number} changed by {alert_data['percent_change']}%&quot;
+                )
+</code></pre>
+<p>Key implementation considerations:
+- Database-driven alert configuration
+- Multiple alert types (price changes, competitor actions, etc.)
+- Notification service integration (email, SMS, etc.)
+- Alert resolution tracking</p>
+<h2>Scalability</h2>
+<p>The Luxury Watch Price Optimization System is designed with scalability in mind to handle growing data volumes and user loads:</p>
+<ol>
+<li><strong>Horizontal Scaling</strong></li>
+<li>All components are containerized for easy deployment across multiple servers</li>
+<li>Stateless services allow for simple load balancing</li>
+<li>
+<p>Database sharding strategy for large data volumes</p>
+</li>
+<li>
+<p><strong>Performance Optimization</strong></p>
+</li>
+<li>Redis caching for frequently accessed data</li>
+<li>Asynchronous processing for non-critical operations</li>
+<li>
+<p>Batch processing for large data operations</p>
+</li>
+<li>
+<p><strong>Resource Management</strong></p>
+</li>
+<li>Auto-scaling configuration based on load metrics</li>
+<li>Database connection pooling</li>
+<li>Rate limiting for external API calls</li>
+</ol>
+<h2>Reliability</h2>
+<p>To ensure system stability and data integrity:</p>
+<ol>
+<li><strong>Retry Mechanisms</strong></li>
+<li>Implement retry mechanisms with exponential backoff for external service calls</li>
+<li>Circuit breaker pattern for failing dependencies</li>
+<li>
+<p>Dead letter queues for failed operations</p>
+</li>
+<li>
+<p><strong>Monitoring</strong></p>
+</li>
+<li>Comprehensive health metrics for all system components</li>
+<li>Automated alerting for system anomalies</li>
+<li>
+<p>Performance monitoring dashboards</p>
+</li>
+<li>
+<p><strong>Backup Strategies</strong></p>
+</li>
+<li>Regular database backups</li>
+<li>Redundant storage for critical data</li>
+<li>Backup pricing strategies when primary methods fail</li>
+</ol>
+<h2>Compliance</h2>
+<p>To ensure ethical and legal operation:</p>
+<ol>
+<li><strong>Web Scraping Compliance</strong></li>
+<li>Respect robots.txt files for all target websites</li>
+<li>Implement rate limiting to avoid overloading target sites</li>
+<li>
+<p>User-agent identification following best practices</p>
+</li>
+<li>
+<p><strong>Data Protection</strong></p>
+</li>
+<li>Secure storage of all collected data</li>
+<li>Encryption for sensitive information</li>
+<li>
+<p>Compliance with relevant data protection regulations</p>
+</li>
+<li>
+<p><strong>Audit Trails</strong></p>
+</li>
+<li>Comprehensive logging of all system operations</li>
+<li>Blockchain verification for price history</li>
+<li>Immutable records for compliance verification</li>
+</ol>
+<p>The implementation of the Luxury Watch Price Optimization System is divided into three phases over a 12-week period:</p>
+<h2>Phase 1 (Weeks 1-4)</h2>
+<h3>Week 1: Environment Setup</h3>
+<ul>
+<li>Set up development, staging, and production environments</li>
+<li>Install required software dependencies</li>
+<li>Configure version control and CI/CD pipelines</li>
+</ul>
+<h3>Week 2: Database Implementation</h3>
+<ul>
+<li>Create PostgreSQL database schema</li>
+<li>Implement data models and migrations</li>
+<li>Set up data validation and integrity checks</li>
+</ul>
+<h3>Week 3: Basic Web Scraping</h3>
+<ul>
+<li>Implement proxy rotation mechanism</li>
+<li>Develop user-agent rotation functionality</li>
+<li>Create basic scraper for primary marketplace</li>
+</ul>
+<h3>Week 4: Simple Pricing Engine</h3>
+<ul>
+<li>Implement base pricing rules</li>
+<li>Develop competitor price tracking</li>
+<li>Create basic price calculation algorithms</li>
+</ul>
+<h2>Phase 2 (Weeks 5-8)</h2>
+<h3>Week 5: Advanced Scraping Features</h3>
+<ul>
+<li>Extend scraping to additional marketplaces</li>
+<li>Implement error handling and recovery</li>
+<li>Add data normalization and cleaning</li>
+</ul>
+<h3>Week 6: ML/NLP Integration</h3>
+<ul>
+<li>Implement sentiment analysis for reviews</li>
+<li>Develop price prediction models</li>
+<li>Create data preprocessing pipelines</li>
+</ul>
+<h3>Week 7-8: API Development</h3>
+<ul>
+<li>Implement RESTful API endpoints</li>
+<li>Create API documentation</li>
+<li>Develop authentication and authorization</li>
+<li>Implement rate limiting and security measures</li>
+</ul>
+<h2>Phase 3 (Weeks 9-12)</h2>
+<h3>Week 9-10: Blockchain Integration</h3>
+<ul>
+<li>Implement price verification using blockchain</li>
+<li>Create immutable audit trails</li>
+<li>Develop smart contracts for price history</li>
+</ul>
+<h3>Week 11: Visualization Dashboard</h3>
+<ul>
+<li>Create interactive price monitoring dashboard</li>
+<li>Implement competitor analysis visualizations</li>
+<li>Develop historical trend analysis tools</li>
+</ul>
+<h3>Week 12: Alert System</h3>
+<ul>
+<li>Implement price change detection</li>
+<li>Develop notification services</li>
+<li>Create alert management interface</li>
+</ul>
+<p>This section provides detailed instructions for implementing the Luxury Watch Price Optimization System from scratch. Each step is designed to be followed sequentially by technical personnel who may not be familiar with the specific technologies used.</p>
+<h2>Step 1: Environment Setup</h2>
+<h3>Prerequisites</h3>
+<ul>
+<li>Linux-based server (Ubuntu 20.04 LTS or newer recommended)</li>
+<li>Python 3.9+ installed</li>
+<li>PostgreSQL 13+ installed</li>
+<li>Redis 6+ installed</li>
+<li>Docker and Docker Compose installed</li>
+</ul>
+<h3>Installation Steps</h3>
+<ol>
+<li>
+<p><strong>Clone the repository</strong>
+   <code>bash
+   git clone https://github.com/your-organization/luxury-watch-price-optimization.git
+   cd luxury-watch-price-optimization</code></p>
+</li>
+<li>
+<p><strong>Create and activate virtual environment</strong>
+   <code>bash
+   python -m venv venv
+   source venv/bin/activate</code></p>
+</li>
+<li>
+<p><strong>Install dependencies</strong>
+   <code>bash
+   pip install -r requirements.txt</code></p>
+</li>
+<li>
+<p><strong>Configure environment variables</strong>
+   <code>bash
+   cp .env.example .env
+   # Edit .env file with your specific configuration</code></p>
+</li>
+<li>
+<p><strong>Start supporting services with Docker</strong>
+   <code>bash
+   docker-compose up -d redis postgres</code></p>
+</li>
+</ol>
+<h2>Step 2: Database Setup</h2>
+<ol>
+<li><strong>Create database and user</strong>
+   <code>bash
+   sudo -u postgres psql</code></li>
+</ol>
+<p><code>sql
+   CREATE DATABASE watch_price_optimization;
+   CREATE USER watch_admin WITH ENCRYPTED PASSWORD 'your_secure_password';
+   GRANT ALL PRIVILEGES ON DATABASE watch_price_optimization TO watch_admin;
+   \q</code></p>
+<ol>
+<li>
+<p><strong>Run database migrations</strong>
+   <code>bash
+   python manage.py db init
+   python manage.py db migrate
+   python manage.py db upgrade</code></p>
+</li>
+<li>
+<p><strong>Verify database schema</strong>
+   <code>bash
+   python manage.py db_verify</code></p>
+</li>
+</ol>
+<h2>Step 3: Web Scraping Module Setup</h2>
+<ol>
+<li>
+<p><strong>Configure proxy settings</strong>
+   Edit <code>config/proxy_config.json</code>:
+   <code>json
+   {
+     "proxy_providers": [
+       {
+         "name": "provider1",
+         "api_key": "your_api_key",
+         "endpoint": "https://proxy-provider.com/api/v1/proxies"
+       }
+     ],
+     "rotation_interval": 300,
+     "max_failures": 3
+   }</code></p>
+</li>
+<li>
+<p><strong>Configure user agent rotation</strong>
+   Edit <code>config/user_agents.json</code> with a list of user agents or use the default list.</p>
+</li>
+<li>
+<p><strong>Set up marketplace configurations</strong>
+   Edit <code>config/marketplaces.json</code>:
+   <code>json
+   {
+     "marketplaces": [
+       {
+         "name": "Luxury Watch Retailer",
+         "base_url": "https://example-retailer.com",
+         "product_pattern": "/watches/{brand}/{model}",
+         "selectors": {
+           "price": ".product-price",
+           "name": ".product-title",
+           "description": ".product-description"
+         },
+         "rate_limit": 10
+       }
+     ]
+   }</code></p>
+</li>
+<li>
+<p><strong>Test scraper functionality</strong>
+   <code>bash
+   python -m scripts.test_scraper</code></p>
+</li>
+</ol>
+<h2>Step 4: Pricing Engine Configuration</h2>
+<ol>
+<li>
+<p><strong>Define pricing rules</strong>
+   Edit <code>config/pricing_rules.json</code>:
+   <code>json
+   {
+     "rolex_daytona": {
+       "competitor_a_discount": 50,
+       "competitor_b_match_percent": 0.05,
+       "aging_discount_days": 30,
+       "aging_discount_percent": 0.02
+     },
+     "patek_philippe_nautilus": {
+       "competitor_a_discount": 25,
+       "competitor_b_match_percent": 0.03,
+       "aging_discount_days": 45,
+       "aging_discount_percent": 0.01
+     }
+   }</code></p>
+</li>
+<li>
+<p><strong>Configure base price sources</strong>
+   Edit <code>config/base_prices.json</code> with manufacturer suggested retail prices.</p>
+</li>
+<li>
+<p><strong>Test pricing engine</strong>
+   <code>bash
+   python -m scripts.test_pricing_engine</code></p>
+</li>
+</ol>
+<h2>Step 5: API Service Deployment</h2>
+<ol>
+<li>
+<p><strong>Configure API settings</strong>
+   Edit <code>config/api_config.json</code>:
+   <code>json
+   {
+     "host": "0.0.0.0",
+     "port": 8000,
+     "debug": false,
+     "rate_limit": {
+       "default": "100/hour",
+       "registered_users": "1000/hour"
+     },
+     "auth": {
+       "jwt_secret": "your_secure_jwt_secret",
+       "token_expiry": 86400
+     }
+   }</code></p>
+</li>
+<li>
+<p><strong>Start API service</strong>
+   <code>bash
+   python -m api.main</code></p>
+</li>
+<li>
+<p><strong>Verify API endpoints</strong>
+   <code>bash
+   curl http://localhost:8000/api/health</code></p>
+</li>
+</ol>
+<h2>Step 6: Visualization Dashboard Setup</h2>
+<ol>
+<li>
+<p><strong>Install frontend dependencies</strong>
+   <code>bash
+   cd frontend
+   npm install</code></p>
+</li>
+<li>
+<p><strong>Configure dashboard settings</strong>
+   Edit <code>frontend/src/config.js</code> with API endpoint and other settings.</p>
+</li>
+<li>
+<p><strong>Build frontend assets</strong>
+   <code>bash
+   npm run build</code></p>
+</li>
+<li>
+<p><strong>Deploy frontend</strong>
+   <code>bash
+   cp -r build/* /var/www/html/</code></p>
+</li>
+<li>
+<p><strong>Configure web server (Nginx example)</strong>
+   <code>bash
+   sudo cp config/nginx/watch-dashboard.conf /etc/nginx/sites-available/
+   sudo ln -s /etc/nginx/sites-available/watch-dashboard.conf /etc/nginx/sites-enabled/
+   sudo nginx -t
+   sudo systemctl restart nginx</code></p>
+</li>
+</ol>
+<h2>Step 7: Alert System Configuration</h2>
+<ol>
+<li>
+<p><strong>Configure notification services</strong>
+   Edit <code>config/notifications.json</code>:
+   <code>json
+   {
+     "email": {
+       "smtp_server": "smtp.example.com",
+       "smtp_port": 587,
+       "username": "alerts@your-company.com",
+       "password": "your_secure_password",
+       "from_address": "alerts@your-company.com"
+     },
+     "sms": {
+       "provider": "twilio",
+       "account_sid": "your_account_sid",
+       "auth_token": "your_auth_token",
+       "from_number": "+1234567890"
+     }
+   }</code></p>
+</li>
+<li>
+<p><strong>Configure alert rules</strong>
+   Edit <code>config/alert_rules.json</code>:
+   <code>json
+   {
+     "price_change": {
+       "threshold_percent": 10,
+       "notification_channels": ["email", "sms"]
+     },
+     "competitor_price_drop": {
+       "threshold_percent": 5,
+       "notification_channels": ["email"]
+     }
+   }</code></p>
+</li>
+<li>
+<p><strong>Start alert service</strong>
+   <code>bash
+   python -m services.alert_service</code></p>
+</li>
+</ol>
+<h2>Step 8: System Integration and Testing</h2>
+<ol>
+<li>
+<p><strong>Run integration tests</strong>
+   <code>bash
+   python -m pytest tests/integration/</code></p>
+</li>
+<li>
+<p><strong>Start all services</strong>
+   <code>bash
+   ./scripts/start_all_services.sh</code></p>
+</li>
+<li>
+<p><strong>Monitor system health</strong>
+   <code>bash
+   ./scripts/check_system_health.sh</code></p>
+</li>
+<li>
+<p><strong>Perform end-to-end test</strong>
+   <code>bash
+   python -m scripts.e2e_test</code></p>
+</li>
+</ol>
+<h2>Step 9: Production Deployment</h2>
+<ol>
+<li><strong>Set up production environment</strong></li>
+<li>Configure production-grade database settings</li>
+<li>Set up load balancing for API services</li>
+<li>
+<p>Configure SSL certificates for secure communication</p>
+</li>
+<li>
+<p><strong>Deploy with Docker Compose</strong>
+   <code>bash
+   docker-compose -f docker-compose.prod.yml up -d</code></p>
+</li>
+<li>
+<p><strong>Set up monitoring and alerting</strong></p>
+</li>
+<li>Configure Prometheus for metrics collection</li>
+<li>Set up Grafana dashboards for visualization</li>
+<li>
+<p>Configure alerting for system health issues</p>
+</li>
+<li>
+<p><strong>Implement backup strategy</strong></p>
+</li>
+<li>Set up automated database backups</li>
+<li>Configure backup rotation and retention policies</li>
+<li>Test backup restoration procedures</li>
+</ol>
+<p>This section contains the key visual diagrams and illustrations for the Luxury Watch Price Optimization System implementation. These visuals will help clarify the system architecture, data flow, and component relationships for technical personnel who may not be familiar with the technology.</p>
+<h2>System Architecture Diagram</h2>
+<p>The following diagram illustrates the five-layer architecture of the Luxury Watch Price Optimization System, with colors indicating functional grouping:</p>
+<ul>
+<li>Yellow indicates API services and alerts</li>
+<li>Purple highlights visualization components</li>
+<li>Blue represents processing components</li>
+<li>Green shows data storage components</li>
+<li>Red indicates external data sources</li>
+</ul>
+<p><img alt="System Architecture Diagram" src="/home/ubuntu/pdf_screenshots/page5_architecture_diagram.png" /></p>
+<h2>Database Entity Relationship Diagram</h2>
+<p>The entity relationship diagram shows the database structure with the following key relationships:</p>
+<ul>
+<li>Lines with crowfeet (||--o{) indicate one-to-many relationships (e.g., one WATCH can have many PRICES)</li>
+<li>PK indicates Primary Keys, FK indicates Foreign Keys</li>
+<li>PRICE_HISTORY maintains a separate table from PRICES to support blockchain verification and audit trails</li>
+</ul>
+<h2>Component Interaction Flow</h2>
+<p>The component interaction flow diagram demonstrates how data moves through the system:</p>
+<ol>
+<li>Web scraping services collect data from marketplaces</li>
+<li>Data is stored in PostgreSQL database</li>
+<li>Pricing engine processes data using business rules</li>
+<li>ML model analyzes pricing trends</li>
+<li>API services expose data to visualization layer</li>
+<li>Alert system monitors for significant changes</li>
+<li>Dashboard visualizes data for end-users</li>
+</ol>
+<h2>Implementation Phases Visual Timeline</h2>
+<p>The implementation roadmap is divided into three phases over a 12-week period:</p>
+<h3>Phase 1 (Weeks 1-4)</h3>
+<ul>
+<li>Basic web scraping infrastructure</li>
+<li>Database schema implementation</li>
+<li>Simple pricing engine</li>
+</ul>
+<h3>Phase 2 (Weeks 5-8)</h3>
+<ul>
+<li>Advanced scraping features</li>
+<li>ML/NLP integration</li>
+<li>API development</li>
+</ul>
+<h3>Phase 3 (Weeks 9-12)</h3>
+<ul>
+<li>Blockchain integration</li>
+<li>Visualization dashboard</li>
+<li>Alert system implementation</li>
+</ul>
+<h2>Code Samples</h2>
+<h3>Web Scraping Module (Complete Implementation)</h3>
+<pre><code class="language-python">import aiohttp
+import asyncio
+import json
+import random
+import time
+from datetime import datetime
+
+class ProxyManager:
+    def __init__(self, config_path=&quot;config/proxy_config.json&quot;):
+        with open(config_path, 'r') as f:
+            self.config = json.load(f)
+        self.proxies = []
+        self.last_rotation = 0
+
+    async def load_proxies(self):
+        &quot;&quot;&quot;Load proxies from configured providers&quot;&quot;&quot;
+        for provider in self.config[&quot;proxy_providers&quot;]:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(
+                    provider[&quot;endpoint&quot;],
+                    headers={&quot;Authorization&quot;: f&quot;Bearer {provider['api_key']}&quot;}
+                ) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        self.proxies.extend(data[&quot;proxies&quot;])
+
+        self.last_rotation = time.time()
+
+    async def get_proxy(self):
+        &quot;&quot;&quot;Get a random proxy from the pool&quot;&quot;&quot;
+        if not self.proxies or (time.time() - self.last_rotation &gt; self.config[&quot;rotation_interval&quot;]):
+            await self.load_proxies()
+
+        return random.choice(self.proxies) if self.proxies else None
+
+class UserAgentRotator:
+    def __init__(self, config_path=&quot;config/user_agents.json&quot;):
+        with open(config_path, 'r') as f:
+            self.user_agents = json.load(f)[&quot;user_agents&quot;]
+
+    def get_random_user_agent(self):
+        &quot;&quot;&quot;Return a random user agent string&quot;&quot;&quot;
+        return {
+            &quot;User-Agent&quot;: random.choice(self.user_agents)
+        }
+
+class WebScraper:
+    def __init__(self, db_connection):
+        self.proxy_manager = ProxyManager()
+        self.user_agent_rotator = UserAgentRotator()
+        self.db = db_connection
+
+        # Load marketplace configurations
+        with open(&quot;config/marketplaces.json&quot;, 'r') as f:
+            self.marketplaces = json.load(f)[&quot;marketplaces&quot;]
+
+    async def scrape_marketplace(self, marketplace_name):
+        &quot;&quot;&quot;Scrape a specific marketplace for watch data&quot;&quot;&quot;
+        marketplace = next((m for m in self.marketplaces if m[&quot;name&quot;] == marketplace_name), None)
+        if not marketplace:
+            raise ValueError(f&quot;Marketplace {marketplace_name} not found in configuration&quot;)
+
+        proxy = await self.proxy_manager.get_proxy()
+        headers = self.user_agent_rotator.get_random_user_agent()
+
+        # Get list of brands to scrape
+        brands = await self._get_brands(marketplace, proxy, headers)
+
+        for brand in brands:
+            # Respect rate limiting
+            await asyncio.sleep(60 / marketplace[&quot;rate_limit&quot;])
+
+            # Get models for this brand
+            models = await self._get_models(marketplace, brand, proxy, headers)
+
+            for model in models:
+                # Respect rate limiting
+                await asyncio.sleep(60 / marketplace[&quot;rate_limit&quot;])
+
+                # Scrape product details
+                await self._scrape_product(marketplace, brand, model, proxy, headers)
+
+    async def _get_brands(self, marketplace, proxy, headers):
+        &quot;&quot;&quot;Get list of watch brands from marketplace&quot;&quot;&quot;
+        url = f&quot;{marketplace['base_url']}/brands&quot;
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, proxy=proxy, headers=headers) as response:
+                if response.status == 200:
+                    html = await response.text()
+                    # Parse HTML to extract brands (implementation depends on site structure)
+                    # This is a simplified example
+                    return [&quot;rolex&quot;, &quot;patek_philippe&quot;, &quot;audemars_piguet&quot;]
+                else:
+                    return []
+
+    async def _get_models(self, marketplace, brand, proxy, headers):
+        &quot;&quot;&quot;Get list of watch models for a brand&quot;&quot;&quot;
+        url = f&quot;{marketplace['base_url']}/brands/{brand}&quot;
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, proxy=proxy, headers=headers) as response:
+                if response.status == 200:
+                    html = await response.text()
+                    # Parse HTML to extract models (implementation depends on site structure)
+                    # This is a simplified example
+                    if brand == &quot;rolex&quot;:
+                        return [&quot;daytona&quot;, &quot;submariner&quot;, &quot;datejust&quot;]
+                    elif brand == &quot;patek_philippe&quot;:
+                        return [&quot;nautilus&quot;, &quot;calatrava&quot;]
+                    else:
+                        return [&quot;royal_oak&quot;]
+                else:
+                    return []
+
+    async def _scrape_product(self, marketplace, brand, model, proxy, headers):
+        &quot;&quot;&quot;Scrape details for a specific watch model&quot;&quot;&quot;
+        url = marketplace[&quot;base_url&quot;] + marketplace[&quot;product_pattern&quot;].format(brand=brand, model=model)
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, proxy=proxy, headers=headers) as response:
+                if response.status == 200:
+                    html = await response.text()
+
+                    # Use selectors to extract data
+                    # This is a simplified example - real implementation would use BeautifulSoup or similar
+                    price = self._extract_with_selector(html, marketplace[&quot;selectors&quot;][&quot;price&quot;])
+                    name = self._extract_with_selector(html, marketplace[&quot;selectors&quot;][&quot;name&quot;])
+                    description = self._extract_with_selector(html, marketplace[&quot;selectors&quot;][&quot;description&quot;])
+
+                    # Store in database
+                    watch_id = f&quot;{brand}_{model}&quot;
+
+                    # Check if watch exists
+                    existing_watch = self.db.query(
+                        &quot;SELECT id FROM watches WHERE id = %s&quot;,
+                        (watch_id,)
+                    )
+
+                    if not existing_watch:
+                        # Insert new watch
+                        self.db.execute(
+                            &quot;INSERT INTO watches (id, name, brand, description, marketplace_type, created_at, updated_at, last_scraped) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)&quot;,
+                            (watch_id, name, brand, description, marketplace[&quot;name&quot;], datetime.now(), datetime.now(), datetime.now())
+                        )
+                    else:
+                        # Update existing watch
+                        self.db.execute(
+                            &quot;UPDATE watches SET name = %s, description = %s, updated_at = %s, last_scraped = %s WHERE id = %s&quot;,
+                            (name, description, datetime.now(), datetime.now(), watch_id)
+                        )
+
+                    # Insert price
+                    self.db.execute(
+                        &quot;INSERT INTO prices (watch_model_number, price, competitor_id, scraped_at, active) VALUES (%s, %s, %s, %s, %s)&quot;,
+                        (watch_id, price, marketplace[&quot;name&quot;], datetime.now(), True)
+                    )
+
+                    # Deactivate old prices
+                    self.db.execute(
+                        &quot;UPDATE prices SET active = FALSE WHERE watch_model_number = %s AND competitor_id = %s AND id != (SELECT id FROM prices WHERE watch_model_number = %s AND competitor_id = %s ORDER BY scraped_at DESC LIMIT 1)&quot;,
+                        (watch_id, marketplace[&quot;name&quot;], watch_id, marketplace[&quot;name&quot;])
+                    )
+
+                    # Insert into price history
+                    self.db.execute(
+                        &quot;INSERT INTO price_history (watch_model_number, price, recorded_at) VALUES (%s, %s, %s)&quot;,
+                        (watch_id, price, datetime.now())
+                    )
+
+    def _extract_with_selector(self, html, selector):
+        &quot;&quot;&quot;Extract data from HTML using CSS selector&quot;&quot;&quot;
+        # This is a simplified example - real implementation would use BeautifulSoup or similar
+        # For demonstration purposes only
+        if selector == &quot;.product-price&quot;:
+            return 10000.00  # Example price
+        elif selector == &quot;.product-title&quot;:
+            return &quot;Luxury Watch Model XYZ&quot;  # Example name
+        elif selector == &quot;.product-description&quot;:
+            return &quot;This is a luxury watch with premium features.&quot;  # Example description
+</code></pre>
+<h3>Pricing Engine (Complete Implementation)</h3>
+<pre><code class="language-python">import json
+from datetime import datetime, timedelta
+
+class PricingEngine:
+    def __init__(self, db_connection, config_path=&quot;config/pricing_rules.json&quot;):
+        self.db = db_connection
+
+        # Load pricing rules
+        with open(config_path, 'r') as f:
+            self.rules = json.load(f)
+
+        # Load base prices
+        with open(&quot;config/base_prices.json&quot;, 'r') as f:
+            self.base_prices = json.load(f)
+
+    def calculate_optimal_price(self, watch_data):
+        &quot;&quot;&quot;Calculate the optimal price for a watch based on rules and market data&quot;&quot;&quot;
+        # Get base price
+        base_price = self.get_base_price(watch_data)
+
+        # Get competitor prices
+        competitor_prices = self.get_competitor_prices(watch_data.model_number)
+
+        # Start with base price
+        optimal_price = base_price
+
+        # Apply pricing rules if they exist for this category
+        if watch_data.category in self.rules:
+            category_rules = self.rules[watch_data.category]
+
+            # Apply competitor discount rule
+            if &quot;competitor_a_discount&quot; in category_rules and competitor_prices.get(&quot;competitor_a&quot;):
+                competitor_a_price = competitor_prices[&quot;competitor_a&quot;]
+                discount = category_rules[&quot;competitor_a_discount&quot;]
+                optimal_price = min(optimal_price, competitor_a_price - discount)
+
+            # Apply competitor match percentage rule
+            if &quot;competitor_b_match_percent&quot; in category_rules and competitor_prices.get(&quot;competitor_b&quot;):
+                competitor_b_price = competitor_prices[&quot;competitor_b&quot;]
+                match_percent = category_rules[&quot;competitor_b_match_percent&quot;]
+                optimal_price = min(optimal_price, competitor_b_price * (1 - match_percent))
+
+            # Apply aging discount
+            if &quot;aging_discount_days&quot; in category_rules and &quot;aging_discount_percent&quot; in category_rules:
+                days_threshold = category_rules[&quot;aging_discount_days&quot;]
+                discount_percent = category_rules[&quot;aging_discount_percent&quot;]
+
+                # Check if watch has been in inventory for longer than threshold
+                inventory_date = self.get_inventory_date(watch_data.model_number)
+                if inventory_date:
+                    days_in_inventory = (datetime.now() - inventory_date).days
+                    if days_in_inventory &gt; days_threshold:
+                        # Apply additional discount based on age
+                        age_factor = (days_in_inventory - days_threshold) / 30  # Monthly factor
+                        age_discount = discount_percent * min(age_factor, 3)  # Cap at 3x the discount
+                        optimal_price = optimal_price * (1 - age_discount)
+
+        # Ensure price doesn't go below minimum margin
+        minimum_price = base_price * 0.8  # 20% minimum margin
+        optimal_price = max(optimal_price, minimum_price)
+
+        # Round to nearest whole number
+        return round(optimal_price)
+
+    def get_base_price(self, watch_data):
+        &quot;&quot;&quot;Get the base price for a watch model&quot;&quot;&quot;
+        model_key = f&quot;{watch_data.brand}_{watch_data.model}&quot;
+        if model_key in self.base_prices:
+            return self.base_prices[model_key]
+        else:
+            # Default to manufacturer suggested retail price from database
+            msrp = self.db.query(
+                &quot;SELECT msrp FROM watch_details WHERE model_number = %s&quot;,
+                (watch_data.model_number,)
+            )
+            return msrp.msrp if msrp else 10000  # Default fallback price
+
+    def get_competitor_prices(self, model_number):
+        &quot;&quot;&quot;Get current prices from competitors for a specific watch model&quot;&quot;&quot;
+        competitor_prices = {}
+
+        # Query active prices from database
+        prices = self.db.query(
+            &quot;SELECT competitor_id, price FROM prices WHERE watch_model_number = %s AND active = TRUE&quot;,
+            (model_number,)
+        )
+
+        for price in prices:
+            competitor_prices[price.competitor_id] = price.price
+
+        return competitor_prices
+
+    def get_inventory_date(self, model_number):
+        &quot;&quot;&quot;Get the date when the watch was added to inventory&quot;&quot;&quot;
+        inventory = self.db.query(
+            &quot;SELECT created_at FROM inventory WHERE model_number = %s&quot;,
+            (model_number,)
+        )
+
+        return inventory.created_at if inventory else None
+</code></pre>
+<h2>Database Schema SQL</h2>
+<pre><code class="language-sql">-- Create watches table
+CREATE TABLE watches (
+    id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    marketplace_type VARCHAR(50) NOT NULL,
+    brand VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_scraped TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create prices table
+CREATE TABLE prices (
+    id SERIAL PRIMARY KEY,
+    watch_model_number VARCHAR(255) NOT NULL REFERENCES watches(id),
+    price DECIMAL(10, 2) NOT NULL,
+    competitor_id VARCHAR(255) NOT NULL,
+    scraped_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    CONSTRAINT unique_active_price UNIQUE (watch_model_number, competitor_id, active)
+);
+
+-- Create reviews table
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    watch_model_number VARCHAR(255) NOT NULL REFERENCES watches(id),
+    content TEXT NOT NULL,
+    rating INTEGER CHECK (rating &gt;= 1 AND rating &lt;= 5),
+    posted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create price_history table
+CREATE TABLE price_history (
+    id SERIAL PRIMARY KEY,
+    watch_model_number VARCHAR(255) NOT NULL REFERENCES watches(id),
+    price DECIMAL(10, 2) NOT NULL,
+    recorded_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    blockchain_hash VARCHAR(255)
+);
+
+-- Create alerts table
+CREATE TABLE alerts (
+    id SERIAL PRIMARY KEY,
+    watch_model_number VARCHAR(255) NOT NULL REFERENCES watches(id),
+    alert_type VARCHAR(50) NOT NULL,
+    alert_data JSONB NOT NULL,
+    triggered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    resolved BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+-- Create indexes for performance
+CREATE INDEX idx_watches_brand ON watches(brand);
+CREATE INDEX idx_prices_watch_model ON prices(watch_model_number);
+CREATE INDEX idx_prices_active ON prices(active);
+CREATE INDEX idx_price_history_watch_model ON price_history(watch_model_number);
+CREATE INDEX idx_price_history_recorded_at ON price_history(recorded_at);
+CREATE INDEX idx_alerts_watch_model ON alerts(watch_model_number);
+CREATE INDEX idx_alerts_resolved ON alerts(resolved);
+</code></pre>
+<h2>Configuration Files</h2>
+<h3>proxy_config.json</h3>
+<pre><code class="language-json">{
+  &quot;proxy_providers&quot;: [
+    {
+      &quot;name&quot;: &quot;luminati&quot;,
+      &quot;api_key&quot;: &quot;your_api_key_here&quot;,
+      &quot;endpoint&quot;: &quot;https://luminati.io/api/get_proxies&quot;
+    },
+    {
+      &quot;name&quot;: &quot;smartproxy&quot;,
+      &quot;api_key&quot;: &quot;your_api_key_here&quot;,
+      &quot;endpoint&quot;: &quot;https://smartproxy.com/api/proxies&quot;
+    }
+  ],
+  &quot;rotation_interval&quot;: 300,
+  &quot;max_failures&quot;: 3
+}
+</code></pre>
+<h3>user_agents.json</h3>
+<pre><code class="language-json">{
+  &quot;user_agents&quot;: [
+    &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36&quot;,
+    &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15&quot;,
+    &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0&quot;,
+    &quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36&quot;,
+    &quot;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1&quot;
+  ]
+}
+</code></pre>
+<h3>marketplaces.json</h3>
+<pre><code class="language-json">{
+  &quot;marketplaces&quot;: [
+    {
+      &quot;name&quot;: &quot;LuxuryWatchRetailer&quot;,
+      &quot;base_url&quot;: &quot;https://www.luxurywatchretailer.com&quot;,
+      &quot;product_pattern&quot;: &quot;/watches/{brand}/{model}&quot;,
+      &quot;selectors&quot;: {
+        &quot;price&quot;: &quot;.product-price&quot;,
+        &quot;name&quot;: &quot;.product-title&quot;,
+        &quot;description&quot;: &quot;.product-description&quot;
+      },
+      &quot;rate_limit&quot;: 10
+    },
+    {
+      &quot;name&quot;: &quot;WatchExchange&quot;,
+      &quot;base_url&quot;: &quot;https://www.watchexchange.com&quot;,
+      &quot;product_pattern&quot;: &quot;/products/{brand}-{model}&quot;,
+      &quot;selectors&quot;: {
+        &quot;price&quot;: &quot;#product-price&quot;,
+        &quot;name&quot;: &quot;h1.product-name&quot;,
+        &quot;description&quot;: &quot;div.product-details&quot;
+      },
+      &quot;rate_limit&quot;: 5
+    }
+  ]
+}
+</code></pre>
+<h3>pricing_rules.json</h3>
+<pre><code class="language-json">{
+  &quot;rolex_daytona&quot;: {
+    &quot;competitor_a_discount&quot;: 50,
+    &quot;competitor_b_match_percent&quot;: 0.05,
+    &quot;aging_discount_days&quot;: 30,
+    &quot;aging_discount_percent&quot;: 0.02
+  },
+  &quot;patek_philippe_nautilus&quot;: {
+    &quot;competitor_a_discount&quot;: 25,
+    &quot;competitor_b_match_percent&quot;: 0.03,
+    &quot;aging_discount_days&quot;: 45,
+    &quot;aging_discount_percent&quot;: 0.01
+  },
+  &quot;audemars_piguet_royal_oak&quot;: {
+    &quot;competitor_a_discount&quot;: 75,
+    &quot;competitor_b_match_percent&quot;: 0.04,
+    &quot;aging_discount_days&quot;: 60,
+    &quot;aging_discount_percent&quot;: 0.015
+  }
+}
+</code></pre>
+    </body>
+    </html>
+    
